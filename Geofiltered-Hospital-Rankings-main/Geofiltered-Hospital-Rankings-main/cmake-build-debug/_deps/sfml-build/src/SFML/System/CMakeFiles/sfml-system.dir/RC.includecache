@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/ryant/Downloads/Geofiltered-Hospital-Rankings-main/Geofiltered-Hospital-Rankings-main/cmake-build-debug/_deps/sfml-build/src/SFML/System/sfml-system.rc
+winresrc.h
+C:/Users/ryant/Downloads/Geofiltered-Hospital-Rankings-main/Geofiltered-Hospital-Rankings-main/cmake-build-debug/_deps/sfml-build/src/SFML/System/winresrc.h
+
