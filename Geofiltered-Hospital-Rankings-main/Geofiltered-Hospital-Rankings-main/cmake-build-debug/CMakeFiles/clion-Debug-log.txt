@@ -22,6 +22,6 @@
 -- Found OpenGL: opengl32
 -- Looking for dinput.h
 -- Looking for dinput.h - found
--- Configuring done (30.6s)
--- Generating done (0.5s)
+-- Configuring done (26.8s)
+-- Generating done (0.4s)
 -- Build files have been written to: C:/Users/ryant/Downloads/Geofiltered-Hospital-Rankings-main/Geofiltered-Hospital-Rankings-main/cmake-build-debug
