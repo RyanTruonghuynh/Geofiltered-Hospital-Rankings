@@ -47,6 +47,11 @@ void assignCoordinates(std::vector<Hospital>& hospitals,
 //Option 6 - Should be completed with no bugs or issues
 
 int main() {
+
+    std::vector<Hospital> hospitals = parseHospitalCSV("hospitals.csv");
+    std::unordered_map<std::string, std::pair<double, double>> coords;
+    assignCoordinates(hospitals, coords);
+
     // Create window
     sf::RenderWindow window(sf::VideoMode(1200, 800), "MedMetrics");
     window.setFramerateLimit(60);
