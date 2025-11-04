@@ -19,7 +19,12 @@ set(SFML_BUILD_NETWORK FALSE) # Set to TRUE if you need network
 
 FetchContent_MakeAvailable(SFML)
 
-add_executable(GeofilteredHospitalRankings main.cpp)
+add_executable(GeofilteredHospitalRankings
+        src/main.cpp
+        src/assign_coords.cpp
+        src/city_coords.cpp
+        src/csv_parser.cpp
+)
 target_compile_features(GeofilteredHospitalRankings PRIVATE cxx_std_11)
 
 # For SFML 2.6.1, link against the actual target names
@@ -27,5 +32,6 @@ target_link_libraries(GeofilteredHospitalRankings PRIVATE sfml-graphics sfml-win
 
 # Include directories for SFML 2.6.1
 target_include_directories(GeofilteredHospitalRankings PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
         ${sfml_SOURCE_DIR}/include
 )
