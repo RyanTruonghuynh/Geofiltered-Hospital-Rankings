@@ -26,7 +26,7 @@ double normalize(const string &rating) {
   if (rating == "Above") {
     return 1.0;
  }
-  if (rating == "Average") {
+  if (rating == "Same") {
     return 0.6;
  }
   if (rating == "Below") {
