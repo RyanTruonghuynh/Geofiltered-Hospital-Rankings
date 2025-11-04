@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include "hospital.h"
 #include "parsing.h"
+#include "user_prefs.h"
 using namespace std;
 
 void compute(std::vector<Hospital> &hospitals, double userlat, double userlon, const UserPreferences &user_prefs);
