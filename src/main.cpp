@@ -373,7 +373,6 @@ int main() {
                                     window.close();
                                     Option2 = false;
                                 }
-                                //if esc is pressed, return to main menu
                                 if (weightEvent.type == sf::Event::KeyPressed) {
                                     if (weightEvent.key.code == sf::Keyboard::Escape) {
                                         Option2 = false;
@@ -406,7 +405,6 @@ int main() {
                                         inputString.pop_back();
                                     }
                                 }
-                                //checks and saves mouseclick location
                                 if (weightEvent.type == sf::Event::MouseButtonPressed){
                                     if (weightEvent.mouseButton.button == sf::Mouse::Left){
                                         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
@@ -426,7 +424,6 @@ int main() {
                             // Draw Option 2 Interface
                             window.clear(sf::Color::White);
 
-                            // Title
                             sf::Text title("Customize Hospital Priorities", font, 40);
                             title.setFillColor(sf::Color::Blue);
                             title.setStyle(sf::Text::Bold);
@@ -487,7 +484,6 @@ int main() {
                             inputLabel.setPosition((1200 - inputBounds.width) / 2, 560);
                             window.draw(inputLabel);
 
-                            // Input box background
                             sf::RectangleShape inputBox(sf::Vector2f(200, 40));
                             inputBox.setFillColor(sf::Color(240, 240, 240));
                             inputBox.setOutlineColor(sf::Color::Green);
@@ -495,7 +491,6 @@ int main() {
                             inputBox.setPosition((1000) / 2, 595);
                             window.draw(inputBox);
 
-                            // Input text
                             if (!inputString.empty()) {
                                 sf::Text inputDisplay(inputString, font, 24);
                                 inputDisplay.setFillColor(sf::Color::Black);
@@ -511,7 +506,6 @@ int main() {
                                 window.draw(placeholder);
                             }
 
-                            // Menu instructions
                             sf::Text navText("Press ENTER to apply, ESC to return to main menu", font, 20);
                             navText.setFillColor(sf::Color::Green);
                             sf::FloatRect navBounds = navText.getLocalBounds();
@@ -534,7 +528,6 @@ int main() {
                                 if (Opt3Event.type == sf::Event::Closed) {
                                     window.close();
                                 }
-                                //Press Esc to return to main menu
                                 if (Opt3Event.type == sf::Event::KeyPressed){
                                     if ( Opt3Event.key.code == sf::Keyboard::Escape){
                                         Option3 = false;
@@ -548,7 +541,6 @@ int main() {
                                 //Drawing option 3 interface
                                 window.clear(sf::Color::White);
 
-                                //Title
                                 sf::Text title("Top Recommended Hospitals", font, 40);
                                 title.setFillColor(sf::Color::Blue);
                                 title.setStyle(sf::Text::Bold);
@@ -642,7 +634,6 @@ int main() {
                                 if (aboutEvent.type == sf::Event::Closed){
                                     window.close();
                                 }
-                                //Press Esc to return to main menu
                                 if (aboutEvent.type == sf::Event::KeyPressed && aboutEvent.key.code == sf::Keyboard::Escape){
                                     Option4 = false;
                                 }
@@ -773,8 +764,6 @@ int main() {
 
                                             file << "Results\n";
                                             file << "=======\n";
-
-                                            // Write top 5 hospitals section
                                             file << "Top 5 Recommended Hospitals:\n";
                                             file << "----------------------------\n";
 
@@ -784,8 +773,6 @@ int main() {
                                             }
 
                                             file << "\n";
-
-                                            // Write user inputs section
                                             file << "Inputs\n";
                                             file << "------\n";
 
@@ -824,7 +811,6 @@ int main() {
 
                             window.clear(sf::Color::White);
 
-                            // Title
                             sf::Text title("Export Results", font, 40);
                             title.setFillColor(sf::Color::Blue);
                             title.setStyle(sf::Text::Bold);
@@ -840,7 +826,6 @@ int main() {
                                 prompt.setPosition((1200 -promptBounds.width) / 2, 150);
                                 window.draw(prompt);
 
-                                // Input box
                                 sf::RectangleShape inputBox(sf::Vector2f(200, 50));
                                 inputBox.setFillColor(sf::Color(240, 240, 240));
                                 inputBox.setOutlineColor(sf::Color::Blue);
@@ -854,7 +839,6 @@ int main() {
                                 inputDisplay.setPosition((1200-textBounds.width) / 2, 225);
                                 window.draw(inputDisplay);
 
-                                // Instructions
                                 sf::Text instruction("Type Y and press ENTER", font, 20);
                                 instruction.setFillColor(sf::Color::Green);
                                 sf::FloatRect instructionBounds = instruction.getLocalBounds();
@@ -895,7 +879,6 @@ int main() {
                                 if (aboutEvent.type == sf::Event::Closed){
                                     window.close();
                                 }
-                                //Press Esc to return to main menu
                                 if (aboutEvent.type == sf::Event::KeyPressed && aboutEvent.key.code == sf::Keyboard::Escape){
                                     Option6 = false;
                                 }
@@ -903,7 +886,6 @@ int main() {
                             // Draw About screen
                             window.clear(sf::Color::White);
 
-                            // About Title
                             sf::Text aboutTitle("About MedMetrics |+|", font, 40);
                             aboutTitle.setFillColor(sf::Color::Blue);
                             aboutTitle.setStyle(sf::Text::Bold);
@@ -911,7 +893,6 @@ int main() {
                             aboutTitle.setPosition((1200- aboutTitleBounds.width) / 2, 50);
                             window.draw(aboutTitle);
 
-                            // Underline separators
                             sf::RectangleShape aboutSeparator(sf::Vector2f(1100, 2));
                             aboutSeparator.setFillColor(sf::Color::Black);
                             aboutSeparator.setPosition(50, 110);
@@ -946,7 +927,6 @@ int main() {
                             devNames.setPosition((1200 -namesBounds.width) / 2, 420);
                             window.draw(devNames);
 
-                            // Source
                             sf::Text dataTitle("Data Source:", font, 37);
                             dataTitle.setFillColor(sf::Color::Blue);
                             dataTitle.setStyle(sf::Text::Bold);
@@ -979,18 +959,14 @@ int main() {
             }
         }
 
-        // Render
         window.clear(sf::Color::White);
-
         window.draw(titleText);
         window.draw(subtitleText);
         window.draw(separator1);
         window.draw(separator2);
         window.draw(menuText);
         window.draw(promptText);
-
         window.display();
-
     }
 
     return 0;
