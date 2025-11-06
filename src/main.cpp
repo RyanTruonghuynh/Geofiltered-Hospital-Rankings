@@ -59,8 +59,8 @@ int main() {
 
     // Load font
     sf::Font font;
-    if (!font.loadFromFile("C:/Windows/Fonts/arial.ttf")) {
-        return 0;
+    if (!font.loadFromFile("../include/arial.ttf")) {
+        return -1;
     }
 
     // Title
