@@ -30,8 +30,8 @@ void compute(std::vector<Hospital> &hospitals, double userlat, double userlon, c
 
 int main() {
 
-    std::vector<Hospital> hospitals = parseHospitalCSV("hospitals.csv");
-    std::unordered_map<std::string, std::pair<double, double>> coords;
+    std::vector<Hospital> hospitals = parseHospitalCSV("../data/hospitals.csv");
+    std::unordered_map<std::string, std::pair<double, double>> coords = loadCityCoords("../data/uscities.csv");
     assignCoordinates(hospitals, coords);
 
     // Create window
