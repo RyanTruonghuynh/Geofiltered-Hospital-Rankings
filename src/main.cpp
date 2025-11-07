@@ -1,33 +1,14 @@
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <fstream>
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
 #include "hospital.h"
+#include "csv_parser.h"
 #include "parsing.h"
 #include "user_prefs.h"
+#include "assign_coords.h"
+#include "city_coords.h"
 using namespace std;
 
 void compute(std::vector<Hospital> &hospitals, double userlat, double userlon, const UserPreferences &user_prefs);
-
-
-//void assignCoordinates(std::vector<Hospital>& hospitals,
-//                       const std::unordered_map<std::string, std::pair<double, double>>& coords)
-//{
-//    int matched = 0;
-//    for (auto& h : hospitals) {
-//        std::string key = h.city + "," + h.state;
-//        if (coords.count(key)) {
-//            h.latitude = coords.at(key).first;
-//            h.longitude = coords.at(key).second;
-//            matched++;
-//        }
-//    }
-//    std::cout << "Coordinates matched for " << matched << " of " << hospitals.size() << " hospitals.\n";
-//}
 
 //MAKE SURE TO CHANGE citySelected to false for final tests (changed to true for now)
 
