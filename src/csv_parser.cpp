@@ -2,13 +2,32 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 #include <vector>
+#include <cctype>
+
+double convertRatingToDouble(const std::string& rating) {
+    std::string lower_rating = rating;
+    // Convert to lowercase for case-insensitive comparison
+    std::transform(lower_rating.begin(), lower_rating.end(), lower_rating.begin(), ::tolower);
+
+    if (lower_rating == "above" || lower_rating == "higher") {
+        return 5.0; // Above Average
+    } else if (lower_rating == "average" || lower_rating == "same") {
+        return 2.5; // Average
+    } else if (lower_rating == "below" || lower_rating == "worse") {
+        return 1.0; // Below Average
+    }
+    return 0.0; // Default for unrated or unknown
+}
 
 std::vector<Hospital> parseHospitalCSV(const std::string& filename) {
     std::vector<Hospital> hospitals;
+
     std::ifstream file(filename);
+
     if (!file.is_open()) {
-        std::cerr << "Error: Could not open file " << filename << std::endl;
+        std::cerr << "Error: Could not open file " << filename << ". Please check the file path." << std::endl;
         return hospitals;
     }
 
@@ -23,10 +42,14 @@ std::vector<Hospital> parseHospitalCSV(const std::string& filename) {
         std::vector<std::string> fields;
 
         // Split line by tab
-        while (std::getline(ss, field, '\t')) {
-            // Remove potential trailing carriage return (\r) if dataset uses Windows line endings
+        while (std::getline(ss, field, ',')) {
+            // Remove potential trailing carriage return (\r)
             if (!field.empty() && field.back() == '\r') {
                 field.pop_back();
+            }
+            // Simple removal of surrounding quotes if present
+            if (field.size() > 1 && field.front() == '"' && field.back() == '"') {
+                field = field.substr(1, field.size() - 2);
             }
             fields.push_back(field);
         }
@@ -37,7 +60,8 @@ std::vector<Hospital> parseHospitalCSV(const std::string& filename) {
             continue;
         }
 
-        // Expecting at least 24 columns based on dataset structure
+        // Must still check for 24 columns to ensure the row is complete,
+        // even though we only store the first 12 fields.
         if (fields.size() < 24) {
             std::cerr << "Skipping malformed row with " << fields.size() << " columns.\n";
             continue;
@@ -48,38 +72,29 @@ std::vector<Hospital> parseHospitalCSV(const std::string& filename) {
         h.city = fields[1];
         h.state = fields[2];
         h.type = fields[3];
-        h.overall_rating = std::stoi(fields[4].empty() ? "0" : fields[4]);
-        h.mortality = fields[5];
-        h.safety = fields[6];
-        h.readmission = fields[7];
-        h.experience = fields[8];
-        h.effectiveness = fields[9];
-        h.timeliness = fields[10];
-        h.imaging = fields[11];
 
-        // Convert numeric values safely
-        auto toDouble = [](const std::string& s) {
-            try { return std::stod(s); } catch (...) { return 0.0; }
-        };
+        // Convert overall rating safely
+        try {
+             // Handle empty string and convert to double
+             h.overall_rating = std::stod(fields[4].empty() ? "0.0" : fields[4]);
+        } catch (...) {
+            h.overall_rating = 0.0;
+        }
 
-        h.heart_attack_cost = toDouble(fields[12]);
-        h.heart_attack_quality = fields[13];
-        h.heart_attack_value = fields[14];
+        // Convert string ratings to double scores (1.0 to 5.0)
+        h.mortality = convertRatingToDouble(fields[5]);
+        h.safety = convertRatingToDouble(fields[6]);
+        h.readmission = convertRatingToDouble(fields[7]);
+        h.experience = convertRatingToDouble(fields[8]);
+        h.effectiveness = convertRatingToDouble(fields[9]);
+        h.timeliness = convertRatingToDouble(fields[10]);
+        h.imaging = convertRatingToDouble(fields[11]);
 
-        h.heart_failure_cost = toDouble(fields[15]);
-        h.heart_failure_quality = fields[16];
-        h.heart_failure_value = fields[17];
-
-        h.pneumonia_cost = toDouble(fields[18]);
-        h.pneumonia_quality = fields[19];
-        h.pneumonia_value = fields[20];
-
-        h.hip_knee_cost = toDouble(fields[21]);
-        h.hip_knee_quality = fields[22];
-        h.hip_knee_value = fields[23];
+        // The remaining 12 fields (fields[12] through fields[23]) are ignored.
 
         hospitals.push_back(h);
     }
 
+    std::cout << "Successfully parsed " << hospitals.size() << " data rows.\n";
     return hospitals;
 }

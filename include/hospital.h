@@ -7,30 +7,14 @@ struct Hospital {
     std::string state;
     std::string type;
 
-    int overall_rating;
-    std::string mortality;
-    std::string safety;
-    std::string readmission;
-    std::string experience;
-    std::string effectiveness;
-    std::string timeliness;
-    std::string imaging;
-
-    double heart_attack_cost;
-    std::string heart_attack_quality;
-    std::string heart_attack_value;
-
-    double heart_failure_cost;
-    std::string heart_failure_quality;
-    std::string heart_failure_value;
-
-    double pneumonia_cost;
-    std::string pneumonia_quality;
-    std::string pneumonia_value;
-
-    double hip_knee_cost;
-    std::string hip_knee_quality;
-    std::string hip_knee_value;
+    double overall_rating = 0.0;
+    double mortality = 0.0;
+    double safety = 0.0;
+    double readmission = 0.0;
+    double experience = 0.0;
+    double effectiveness = 0.0;
+    double timeliness = 0.0;
+    double imaging = 0.0;
 
     double latitude = 0.0;
     double longitude = 0.0;
