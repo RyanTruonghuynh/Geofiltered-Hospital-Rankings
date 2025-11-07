@@ -1,3 +1,8 @@
+#include <sstream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <fstream>
 #include <SFML/Graphics.hpp>
 #include <unordered_map>
 #include "hospital.h"
