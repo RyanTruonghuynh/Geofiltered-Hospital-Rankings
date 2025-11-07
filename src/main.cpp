@@ -32,7 +32,9 @@ void compute(std::vector<Hospital> &hospitals, double userlat, double userlon, c
 
 //Option 5 - Placeholders in [] need to be replaced with actual values
 
-//Option 6 - Should be completed with no bugs or issues
+//Option 6 - User can select which data structure to use. Returns an integer (1 or 2) indicating either geohash or octree
+
+//Option 7 - Should be completed with no bugs or issues
 
 int main() {
 
