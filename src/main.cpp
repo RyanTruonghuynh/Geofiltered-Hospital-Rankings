@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include "hospital.h"
 #include "csv_parser.h"
+#include "parsing.h"
 #include "user_prefs.h"
 #include "assign_coords.h"
 #include "city_coords.h"
@@ -76,14 +77,15 @@ int main() {
                        "3. View Recommended Hospitals\n"
                        "4. Display Hospital Details\n"
                        "5. Export Results\n"
-                       "6. About\n"
-                       "7. Exit", font, 33);
+                       "6. Choose Data Structure\n"
+                       "7. About\n"
+                       "8. Exit", font, 33);
     menuText.setFillColor(sf::Color::Black);
     menuText.setLineSpacing(1.2f);
     sf::FloatRect menuBound = menuText.getLocalBounds();
     menuText.setPosition((1200 - menuBound.width) / 2, 280);
 
-    sf::Text promptText("Enter choice [1-7]", font, 30);
+    sf::Text promptText("Enter choice [1-8]", font, 30);
     promptText.setFillColor(sf::Color::Green);
     sf::FloatRect promptBound = promptText.getLocalBounds();
     promptText.setPosition(((1200 - promptBound.width) / 2)-50, 700);
@@ -92,6 +94,9 @@ int main() {
     int choice;
     vector<int> weights = {3, 3, 3, 3, 3, 3};
     int selectedHospitalInd = -1;
+    int DSindicator = 1;
+    string city = "";
+    int userDistance = 0;
 
 
     //I changed to true for testing, for final CHANGE TO FALSE!!!
@@ -108,7 +113,7 @@ int main() {
 
             // User input selection
             if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code >= sf::Keyboard::Num1 && event.key.code <= sf::Keyboard::Num7) {
+                if (event.key.code >= sf::Keyboard::Num1 && event.key.code <= sf::Keyboard::Num8) {
                     choice = event.key.code - sf::Keyboard::Num1 + 1;
 
 
@@ -152,6 +157,7 @@ int main() {
 
                                         if (nameFound) {
                                             cityName = inputName;
+                                            city = inputName;
                                             cityName[0] = toupper(cityName[0]);
                                         }
                                         else {
@@ -164,6 +170,7 @@ int main() {
                                         int distanceValue = stoi(inputDistance);
                                         if (distanceValue > 0) {
                                             distanceEnter = true;
+                                            userDistance = distanceValue;
                                         } else {
                                             inputDistance = "";
                                         }
@@ -342,7 +349,7 @@ int main() {
                             "Patient experience",
                             "Distance",
                             "Preventive care",
-                            "Emergency department quality"
+                            "Emergency department safety quality"
                         };
 
                         // Store the location for each weight for click detection in a vector / Used for red box selection
@@ -418,7 +425,7 @@ int main() {
                             window.draw(title);
 
                             // Instructions
-                            sf::Text instruction("Click on a factor to select it, then type a number (1-5) and press ENTER", font, 24);
+                            sf::Text instruction("Click on a factor to select it, then type a number ([least] 1-5 [most]) and press ENTER", font, 24);
                             instruction.setFillColor(sf::Color::Blue);
                             sf::FloatRect instructionBounds = instruction.getLocalBounds();
                             instruction.setPosition((1200 - instructionBounds.width) / 2, 100);
@@ -804,8 +811,8 @@ int main() {
                             title.setPosition((1200 -titleBounds.width) / 2, 50);
                             window.draw(title);
 
+                            //export File
                             if (!exportSuccess) {
-                                // Export prompt
                                 sf::Text prompt("Would you like to export results?", font, 30);
                                 prompt.setFillColor(sf::Color::Black);
                                 sf::FloatRect promptBounds=prompt.getLocalBounds();
@@ -830,7 +837,8 @@ int main() {
                                 sf::FloatRect instructionBounds = instruction.getLocalBounds();
                                 instruction.setPosition((1200-instructionBounds.width)/2, 300);
                                 window.draw(instruction);
-                            } else {
+                            }
+                            else {
                                 // Success message
                                 sf::Text success("Export successful!", font, 36);
                                 success.setFillColor(sf::Color::Green);
@@ -855,18 +863,103 @@ int main() {
                             window.display();
                         }
                     }
-                    //Option 6 - About (SHOULD BE COMPLETED WITH NO BUGS)
-                    if (choice==6){
+                    //Option 6 - User selects which data structure to use
+                    if (choice == 6) {
 
-                        bool Option6 = true;
-                        while (Option6 && window.isOpen()){
+                        bool Option6=true;
+                        string userInput="";
+                        string DS;
+                        if (DSindicator == 1) {
+                            DS = "Geohash data structure";
+                        } else if (DSindicator == 2) {
+                            DS = "Octree data structure";
+                        }
+
+                        while (Option6 &&window.isOpen()) {
+                            sf::Event Opt6event;
+                            while (window.pollEvent(Opt6event)) {
+                                if (Opt6event.type == sf::Event::Closed){
+                                    window.close();
+                                }
+                                if (Opt6event.type == sf::Event::KeyPressed){
+                                    if (Opt6event.key.code == sf::Keyboard::Escape) {
+                                        Option6=false;
+                                    }
+                                    else if (Opt6event.key.code == sf::Keyboard::Enter) {
+                                        if (userInput =="1") {
+                                            DS = "Geohash data structure";
+                                            DSindicator = 1;
+                                        }
+                                        else if (userInput == "2") {
+                                            DS = "Octree data structure";
+                                            DSindicator = 2;
+                                        }
+                                        userInput="";
+                                    }
+                                }
+                                if (Opt6event.type == sf::Event::TextEntered) {
+                                    if (Opt6event.text.unicode == '1') {
+                                        userInput = "1";
+                                    }
+                                    else if (Opt6event.text.unicode == '2') {
+                                        userInput = "2";
+                                    }
+                                }
+                            }
+                            window.clear(sf::Color::White);
+
+                            sf::Text Title("Select which data structure you would like to use", font, 40);
+                            Title.setFillColor(sf::Color::Blue);
+                            Title.setStyle(sf::Text::Bold);
+                            sf::FloatRect TitleBounds = Title.getLocalBounds();
+                            Title.setPosition((1200- TitleBounds.width) / 2, 50);
+                            window.draw(Title);
+
+                            sf::Text Instruction("To use a geohash data structure press 1 and enter. To use an Octree data structure press 2 and enter", font, 20);
+                            Instruction.setFillColor(sf::Color::Blue);
+                            Instruction.setStyle(sf::Text::Bold);
+                            sf::FloatRect InstructionBounds = Instruction.getLocalBounds();
+                            Instruction.setPosition((1200- InstructionBounds.width) / 2, 200);
+                            window.draw(Instruction);
+
+                            if (DSindicator == 1) {
+                                sf::Text Instruction2("You have selected "+ DS, font, 20);
+                                Instruction2.setFillColor(sf::Color::Blue);
+                                Instruction2.setStyle(sf::Text::Bold);
+                                sf::FloatRect Instruction2Bounds = Instruction2.getLocalBounds();
+                                Instruction2.setPosition((1200- Instruction2Bounds.width) / 2, 500);
+                                window.draw(Instruction2);
+                            }
+                            if (DSindicator == 2) {
+                                sf::Text Instruction2("You have selected "+ DS, font, 20);
+                                Instruction2.setFillColor(sf::Color::Blue);
+                                Instruction2.setStyle(sf::Text::Bold);
+                                sf::FloatRect Instruction2Bounds = Instruction2.getLocalBounds();
+                                Instruction2.setPosition((1200- Instruction2Bounds.width) / 2, 500);
+                                window.draw(Instruction2);
+                            }
+
+                            sf::Text backText("Press ESC to return to main menu", font, 25);
+                            backText.setFillColor(sf::Color::Green);
+                            sf::FloatRect backBounds = backText.getLocalBounds();
+                            backText.setPosition((1200 - backBounds.width) / 2, 750);
+                            window.draw(backText);
+
+                            window.display();
+                        }
+                    }
+                    //Option 7 - About (SHOULD BE COMPLETED WITH NO BUGS)
+                    if (choice==7){
+
+                        bool Option7 = true;
+                        while (Option7 && window.isOpen()){
                             sf::Event aboutEvent;
                             while (window.pollEvent(aboutEvent)){
                                 if (aboutEvent.type == sf::Event::Closed){
                                     window.close();
                                 }
                                 if (aboutEvent.type == sf::Event::KeyPressed && aboutEvent.key.code == sf::Keyboard::Escape){
-                                    Option6 = false;
+                                    Option7 = false;
                                 }
                             }
                             // Draw About screen
@@ -928,7 +1021,6 @@ int main() {
                             dataText.setPosition((1200 - dataTextBounds.width) / 2, 620);
                             window.draw(dataText);
 
-                            // Back instruction
                             sf::Text backText("Press ESC to return to main menu", font, 25);
                             backText.setFillColor(sf::Color::Green);
                             sf::FloatRect backBounds = backText.getLocalBounds();
@@ -938,7 +1030,7 @@ int main() {
                             window.display();
                         }
                     }
-                    if (choice == 7) {
+                    if (choice == 8) {
                         window.close();
                     }
                 }
