@@ -857,7 +857,7 @@ int main() {
                             window.display();
                         }
                     }
-                    //Option 6 -
+                    //Option 6 - User selects which data structure to use
                     if (choice == 6) {
 
                         bool Option6=true;
